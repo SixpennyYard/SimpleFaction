@@ -106,7 +106,6 @@ class PlayerListener implements Listener {
                         } else $event->cancel();
                         break;
                 }
-
                     switch ($item->getTypeId()) {
                         case VanillaItems::BUCKET():
                         case VanillaItems::DIAMOND_HOE():

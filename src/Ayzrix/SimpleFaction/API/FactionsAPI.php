@@ -56,6 +56,7 @@ class FactionsAPI {
 
     public static array $Wars = [];
 
+
     const MAP_KEY_CHARS = "\\/#?ç¬£$%=&^ABCDEFGHJKLMNOPQRSTUVWXYZÄÖÜÆØÅ1234567890abcdeghjmnopqrsuvwxyÿzäöüæøåâêîûô";
     const MAP_WIDTH = 48;
     const MAP_HEIGHT = 10;
