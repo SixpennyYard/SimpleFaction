@@ -1,0 +1,9 @@
+name: SimpleFaction
+authors:
+  - Ayzrix
+  - SixpennyYard
+description: SimpleFaction plugin
+version: 1.7.0
+main: Ayzrix\SimpleFaction\Main
+softdepend: [EconomyAPI]
+api: [5.0.0]
