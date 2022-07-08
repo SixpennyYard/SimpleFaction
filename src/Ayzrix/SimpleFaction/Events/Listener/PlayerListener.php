@@ -15,16 +15,15 @@ namespace Ayzrix\SimpleFaction\Events\Listener;
 
 use Ayzrix\SimpleFaction\API\FactionsAPI;
 use Ayzrix\SimpleFaction\Utils\Utils;
-use pocketmine\block\Block;
-use pocketmine\block\BlockLegacyIds as Ids;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
+use pocketmine\item\VanillaItems;
 use pocketmine\world\format\Chunk;
 
 class PlayerListener implements Listener {
@@ -46,12 +45,6 @@ class PlayerListener implements Listener {
                     if (FactionsAPI::isInFaction($damager->getName())) {
                         $dFaction = FactionsAPI::getFaction($damager->getName());
                         FactionsAPI::addPower($dFaction, (int)Utils::getIntoConfig("power_gain_per_kill"));
-                        if (FactionsAPI::isInFaction($player->getName())) {
-                            $pFaction = FactionsAPI::getFaction($player->getName());
-                            if (isset(FactionsAPI::$Wars[$dFaction]) and FactionsAPI::$Wars[$dFaction]["faction"] === $pFaction) {
-                                FactionsAPI::$Wars[$dFaction]["kills"]++;
-                            }
-                        }
                     }
                 }
             }
@@ -72,28 +65,40 @@ class PlayerListener implements Listener {
             $chunkX = $pos->getFloorX() >> Chunk::COORD_BIT_SIZE;
             $chunkZ = $pos->getFloorZ() >> Chunk::COORD_BIT_SIZE;
             if (FactionsAPI::isInClaim($player->getWorld(), $chunkX, $chunkZ)) {
-                switch ($block->getId()) {
-                    case Ids::FENCE_GATE:
-                    case Ids::ACACIA_FENCE_GATE:
-                    case Ids::BIRCH_FENCE_GATE:
-                    case Ids::DARK_OAK_FENCE_GATE:
-                    case Ids::SPRUCE_FENCE_GATE:
-                    case Ids::JUNGLE_FENCE_GATE:
-                    case Ids::IRON_TRAPDOOR:
-                    case Ids::WOODEN_TRAPDOOR:
-                    case Ids::TRAPDOOR:
-                    case Ids::OAK_FENCE_GATE:
-                    case Ids::CHEST:
-                    case Ids::TRAPPED_CHEST:
-                    case Ids::FURNACE:
-                    case Ids::IRON_DOOR_BLOCK:
-                    case Ids::ACACIA_DOOR_BLOCK:
-                    case Ids::BIRCH_DOOR_BLOCK:
-                    case Ids::DARK_OAK_DOOR_BLOCK:
-                    case Ids::JUNGLE_DOOR_BLOCK:
-                    case Ids::OAK_DOOR_BLOCK:
-                    case Ids::SPRUCE_DOOR_BLOCK:
-                    case Ids::ENDER_CHEST:
+                switch ($block->getTypeId()) {
+                    case VanillaBlocks::ACACIA_FENCE_GATE():
+                    case VanillaBlocks::BIRCH_FENCE_GATE():
+                    case VanillaBlocks::DARK_OAK_FENCE_GATE():
+                    case VanillaBlocks::CRIMSON_FENCE_GATE():
+                    case VanillaBlocks::JUNGLE_FENCE_GATE():
+                    case VanillaBlocks::MANGROVE_FENCE_GATE():
+                    case VanillaBlocks::OAK_FENCE_GATE():
+                    case VanillaBlocks::SPRUCE_FENCE_GATE():
+                    case VanillaBlocks::WARPED_FENCE_GATE():
+                    case VanillaBlocks::IRON_TRAPDOOR():
+                    case VanillaBlocks::ACACIA_TRAPDOOR():
+                    case VanillaBlocks::BIRCH_TRAPDOOR():
+                    case VanillaBlocks::CRIMSON_TRAPDOOR():
+                    case VanillaBlocks::DARK_OAK_TRAPDOOR():
+                    case VanillaBlocks::JUNGLE_TRAPDOOR():
+                    case VanillaBlocks::MANGROVE_TRAPDOOR():
+                    case VanillaBlocks::OAK_TRAPDOOR():
+                    case VanillaBlocks::SPRUCE_TRAPDOOR():
+                    case VanillaBlocks::WARPED_TRAPDOOR():
+                    case VanillaBlocks::CHEST():
+                    case VanillaBlocks::TRAPPED_CHEST():
+                    case VanillaBlocks::FURNACE():
+                    case VanillaBlocks::IRON_DOOR():
+                    case VanillaBlocks::ACACIA_DOOR():
+                    case VanillaBlocks::BIRCH_DOOR():
+                    case VanillaBlocks::DARK_OAK_DOOR():
+                    case VanillaBlocks::JUNGLE_DOOR():
+                    case VanillaBlocks::OAK_DOOR():
+                    case VanillaBlocks::SPRUCE_DOOR():
+                    case VanillaBlocks::CRIMSON_DOOR():
+                    case VanillaBlocks::WARPED_DOOR():
+                    case VanillaBlocks::MANGROVE_DOOR():
+                    case VanillaBlocks::ENDER_CHEST():
                         if (FactionsAPI::isInFaction($player->getName())) {
                             $claimer = FactionsAPI::getFactionClaim($player->getWorld(), $chunkX, $chunkZ);
                             $faction = FactionsAPI::getFaction($player->getName());
@@ -102,18 +107,18 @@ class PlayerListener implements Listener {
                         break;
                 }
 
-                    switch ($item->getId()) {
-                        case ItemIds::BUCKET:
-                        case ItemIds::DIAMOND_HOE:
-                        case ItemIds::GOLD_HOE:
-                        case ItemIds::IRON_HOE:
-                        case ItemIds::STONE_HOE:
-                        case ItemIds::WOODEN_HOE:
-                        case ItemIds::DIAMOND_SHOVEL:
-                        case ItemIds::GOLD_SHOVEL:
-                        case ItemIds::IRON_SHOVEL:
-                        case ItemIds::STONE_SHOVEL:
-                        case ItemIds::WOODEN_SHOVEL:
+                    switch ($item->getTypeId()) {
+                        case VanillaItems::BUCKET():
+                        case VanillaItems::DIAMOND_HOE():
+                        case VanillaItems::GOLDEN_HOE():
+                        case VanillaItems::IRON_HOE():
+                        case VanillaItems::STONE_HOE():
+                        case VanillaItems::WOODEN_HOE():
+                        case VanillaItems::DIAMOND_SHOVEL():
+                        case VanillaItems::GOLDEN_SHOVEL():
+                        case VanillaItems::IRON_SHOVEL():
+                        case VanillaItems::STONE_SHOVEL():
+                        case VanillaItems::WOODEN_SHOVEL():
                             if (FactionsAPI::isInFaction($player->getName())) {
                                 $claimer = FactionsAPI::getFactionClaim($player->getWorld(), $chunkX, $chunkZ);
                                 $faction = FactionsAPI::getFaction($player->getName());

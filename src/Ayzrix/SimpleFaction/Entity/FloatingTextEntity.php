@@ -11,11 +11,11 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 
-class FloatingTextEntity extends Entity {
+class FloatingTextEntity extends Entity{
 
     public float $height = 0.1;
     public float $width = 0.1;
-    public $gravity = 0;
+    public float $gravity = 0;
 
     public static function getNetworkTypeId() : string{ return EntityIds::NPC; }
 
@@ -56,4 +56,14 @@ class FloatingTextEntity extends Entity {
     }
 
     public function tryChangeMovement(): void {}
+
+    protected function getInitialDragMultiplier(): float
+    {
+        return false;
+    }
+
+    protected function getInitialGravity(): float
+    {
+        return $this->gravity;
+    }
 }
